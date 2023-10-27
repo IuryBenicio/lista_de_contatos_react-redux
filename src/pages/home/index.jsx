@@ -36,8 +36,8 @@ function Home(){
       <>
           <ContainerPage>
             <CardAddCtt/>
+            <ContainerContatos>
             {contatos.length >= 1 ? (
-              <ContainerContatos>
                 <ul>
                   {contatos.map((e)=>(
                     <ItemCtt key={e.id}>
@@ -46,12 +46,12 @@ function Home(){
                     </ItemCtt>
                   ))}
                 </ul>
-              </ContainerContatos>
             ) : (
               <LoadContainer>
                 <span>CARREGANDO ...</span>
               </LoadContainer>
             )}
+            </ContainerContatos>
           </ContainerPage>
       </>
   )
