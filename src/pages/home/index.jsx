@@ -1,4 +1,4 @@
-import { getDocs, collection, doc, updateDoc } from "firebase/firestore"
+import { collection, doc, updateDoc, onSnapshot, deleteDoc } from "firebase/firestore"
 import { addContato } from "../../redux/Contact/slice";
 import { db } from "../../firebaseconnection"
 import { useDispatch } from "react-redux"
@@ -10,10 +10,10 @@ import CttContainer from "../../components/CttContainer"
 function Home(){
 
   const dispatch = useDispatch();
-  const contatoRef = collection(db, 'Lista-de-contatos')
 
   const [editando, setEditando] = useState(false)
   const [contatos, setContatos] = useState([])
+  const [idCtt, setId] = useState('')
   const [nome, setNome] = useState('')
   const [DDD, setDDD] = useState('')
   const [numero, setNumero] = useState('')
@@ -32,13 +32,18 @@ function Home(){
     setNumero('')
   }
 
-
-  async function EditCtt(e){
+  function setInputEdit(e){
+    setEditando(true)
     setNome(e.Nome)
     setEmail(e.Email)
     setNumero(e.Numero)
     setDDD(e.DDD)
-    const ContatoRef = doc(db, 'Lista-de-contatos', e.id)
+    setId(e.id)
+  }
+
+
+  async function EditCtt(){
+    const ContatoRef = doc(db, 'Lista-de-contatos', idCtt)
     await updateDoc(ContatoRef, {
       Nome: nome,
       DDD: DDD,
@@ -47,18 +52,25 @@ function Home(){
     })
     .then(()=>{
       alert('Contato Atualizado')
+      setEditando(false)
+      setDDD('')
+      setEmail('')
+      setNome('')
+      setNumero('')
+      setId('')
     })
     .catch((e)=>{
+      alert('erro ao salvar novos dados ao contato')
       console.log(e)
     })
   }
 
-  async function BuscaContato(){
-    await getDocs(contatoRef)
-    .then((e)=>{
-      let lista = []
+  async function AtualizaAgenda(){
+    // eslint-disable-next-line no-unused-vars
+    const unsub = onSnapshot(collection(db, 'Lista-de-contatos'), (e)=>{
+      let listaContatos = []
       e.forEach((doc)=>{
-        lista.push({
+        listaContatos.push({
           id: doc.id,
           Nome: doc.data().Nome,
           DDD: doc.data().DDD,
@@ -66,16 +78,23 @@ function Home(){
           Email: doc.data().Email
         })
       })
-      setContatos(lista)
-      console.log(lista)
+      setContatos(listaContatos)
     })
-    .catch((e)=>{
-      alert('não conseguimos achar seus contatos' + e)
+  }
+
+  async function excluirContato(e){
+    const cttRef = doc(db, 'Lista-de-contatos', e.id)
+    await deleteDoc(cttRef)
+    .then(()=>{
+      alert(`contato ${e.Nome} foi apagado`)
+    })
+    .catch((erro)=>{
+      alert(`erro ao apagar contato ${e.Nome}. código do erro ${erro} `)
     })
   }
 
   useEffect(()=>{
-    BuscaContato()
+    AtualizaAgenda()
   },[])
 
   return(
@@ -92,11 +111,11 @@ function Home(){
               <ButtonContainer>
                   {!editando ?
                   (<button onClick={handleAddCtt}>Enviar</button>) :
-                  (<button onClick='#'>Salvar</button>)}
+                  (<button onClick={EditCtt}>Salvar</button>)}
 
               </ButtonContainer>
             </ContainerAddCtt>
-            <CttContainer func={EditCtt} list={contatos}/>
+            <CttContainer func={setInputEdit} funcExc={excluirContato} list={contatos}/>
           </ContainerPage>
       </>
   )

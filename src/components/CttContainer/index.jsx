@@ -12,7 +12,7 @@ function CttContainer(props){
                   <NomeCtt>{e.Nome}</NomeCtt>
                   <p>{e.Email}</p>
                   <p><span>({e.DDD})</span> {e.Numero}</p>
-                  <button onClick={alert('oi')} >edit</button><button>remove</button>
+                  <button onClick={()=>props.func(e)} >edit</button><button onClick={()=>props.funcExc(e)}>remove</button>
                 </ItemCtt>
               ))}
             </ul>
