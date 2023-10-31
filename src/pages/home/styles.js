@@ -11,7 +11,15 @@ ul{
   }
 `
 export const ItemCtt = styled.li`
-
+  border: 1px solid black;
+  padding: 8px;
+  text-align: center;
+  border-radius: 8px;
+  button{
+    border: 1px solid black;
+    border-radius: 8px;
+    width: 50%;
+  }
 `
 export const ContainerPage = styled.div`
   max-width: 1024px;
@@ -33,4 +41,32 @@ justify-content: center;
 span{
   font-size: 50px;
 }
+`
+
+export const ContainerAddCtt = styled.div`
+  border: 1px solid black;
+  border-radius: 16px;
+  margin-top: 24px;
+  padding:  15px;
+  text-align: center;
+  h2{
+    padding-bottom: 10px;
+  }
+`
+export const ButtonContainer = styled.div`
+  margin-top: 14px;
+  button{
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid black;
+  }
+`
+export const InputsAddCtt = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+    input{
+      border-radius: 4px;
+      border: 1px solid black;
+    }
 `
