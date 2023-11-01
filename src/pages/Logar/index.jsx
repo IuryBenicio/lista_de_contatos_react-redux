@@ -1,6 +1,6 @@
 import { RegisterStyle, Container } from "./styles";
 import { useState } from "react"
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Loga } from "../../redux/user/slice";
 import { useDispatch } from "react-redux";
 
@@ -21,7 +21,7 @@ function LoginPage(){
   return(
       <RegisterStyle>
         <Container>
-          <h2>Faça seu cadastro</h2>
+          <h2>Faça seu Login</h2>
 
           <input placeholder="Digite seu Email"
           onChange={evento => setEmail(evento.target.value)}
@@ -32,7 +32,7 @@ function LoginPage(){
           type="text" value={senha} />
 
           <button onClick={logarUsuario} >Logar</button>
-          <span>Não possui conta? faça seu cadastro</span>
+          <Link to='/'>Não possui conta? faça seu cadastro</Link>
         </Container>
       </RegisterStyle>
   )

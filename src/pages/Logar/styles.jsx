@@ -47,4 +47,11 @@ export const Container = styled.div`
   button:active{
     background-color: #1a1a1a;
   }
+  a{
+    text-decoration: none;
+    color: #1a1a1a;
+  }
+  a:hover{
+    color: #727272;
+  }
 `
