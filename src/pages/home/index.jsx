@@ -19,19 +19,25 @@ function Home(){
   const [numero, setNumero] = useState('')
   const [email,setEmail] = useState('')
 
+  ///////////ADICIONA CONTATO///////////////
   function handleAddCtt(){
-    dispatch(addContato({
-      Nome: nome,
-      DDD: DDD,
-      Numero: numero,
-      Email: email
-    }))
-    setDDD('')
-    setEmail('')
-    setNome('')
-    setNumero('')
+    if(nome === ''){
+      alert('PRECISA DIGITAR UM NOME AO CONTATO')
+      return
+    }else{
+      dispatch(addContato({
+        Nome: nome,
+        DDD: DDD,
+        Numero: numero,
+        Email: email
+      }))
+      setDDD('')
+      setEmail('')
+      setNome('')
+      setNumero('')
+    }
   }
-
+  ///////////SET INPUT FUNC///////////////
   function setInputEdit(e){
     setEditando(true)
     setNome(e.Nome)
@@ -41,7 +47,7 @@ function Home(){
     setId(e.id)
   }
 
-
+  ///////////EDITA CONTATO///////////////
   async function EditCtt(){
     const ContatoRef = doc(db, 'Lista-de-contatos', idCtt)
     await updateDoc(ContatoRef, {
@@ -64,7 +70,7 @@ function Home(){
       console.log(e)
     })
   }
-
+    ///////////ATUALIZA CONTATOS///////////////
   async function AtualizaAgenda(){
     // eslint-disable-next-line no-unused-vars
     const unsub = onSnapshot(collection(db, 'Lista-de-contatos'), (e)=>{
@@ -82,6 +88,7 @@ function Home(){
     })
   }
 
+  ///////////EXCLUI CONTATO///////////////
   async function excluirContato(e){
     const cttRef = doc(db, 'Lista-de-contatos', e.id)
     await deleteDoc(cttRef)
@@ -93,6 +100,7 @@ function Home(){
     })
   }
 
+    ///////////PROCESSOS AO INICIAR///////////////
   useEffect(()=>{
     AtualizaAgenda()
   },[])

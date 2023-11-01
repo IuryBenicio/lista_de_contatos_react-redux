@@ -17,6 +17,7 @@ const cttRef = collection(db, 'Lista-de-contatos')
 
 async function addCtt(nome, ddd, numero, email){
   await addDoc(cttRef,{
+    Created: new Date(),
     Nome: nome,
     DDD: ddd,
     Numero: numero,
