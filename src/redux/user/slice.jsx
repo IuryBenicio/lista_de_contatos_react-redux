@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebaseconnection";
 
 const initialState = {
@@ -7,6 +7,17 @@ const initialState = {
     email: '',
     logado: false
   }
+}
+
+async function LogaUser(email, senha){
+  await signInWithEmailAndPassword(auth, email, senha)
+    .then(()=>{
+    })
+    .catch((error)=>{
+      if(error.code === 'auth/user-not-found'){
+        alert('Usuário não encontrado')
+      }
+    })
 }
 
 async function CadastraUser(email, senha){
@@ -41,10 +52,14 @@ export const userSlice = createSlice({
     Cadastra: (state, action)=>{
       CadastraUser(action.payload.email, action.payload.senha)
       return{...state}
+    },
+    Loga: (state, action)=>{
+      LogaUser(action.payload.email, action.payload.senha)
+      return{...state}
     }
   }
 })
 
 export default userSlice.reducer
 
-export const{login, Cadastra} = userSlice.actions
+export const{login, Cadastra, Loga} = userSlice.actions

@@ -1,26 +1,21 @@
 import { RegisterStyle, Container } from "./styles";
 import { useState } from "react"
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebaseconnection";
 import { useNavigate } from "react-router-dom";
+import { Loga } from "../../redux/user/slice";
+import { useDispatch } from "react-redux";
 
 function LoginPage(){
+  const dispatch = useDispatch()
   const navigate = useNavigate()
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
-  async function logarUsuario(){
-    await signInWithEmailAndPassword(auth, email, senha)
-    .then(()=>{
-      navigate('/Home')
-      setEmail('')
-      setSenha('')
-    })
-    .catch((error)=>{
-      if(error.code == 'account-exists-with-different-credential'){
-        alert('email ou senha já existentes')
-      }
-    })
+  function logarUsuario(){
+    dispatch(Loga({
+      email: email,
+      senha: senha
+    }))
+    navigate('/Home', {replace: true})
   }
 
   return(
