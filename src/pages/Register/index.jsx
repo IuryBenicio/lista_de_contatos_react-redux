@@ -1,39 +1,26 @@
 import { useState } from "react"
-import { useSelector, useDispatch } from "react-redux";
-import { login } from "../../redux/user/slice";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { RegisterStyle, Container, SpanSenha } from "./styles";
-import { auth } from "../../firebaseconnection";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { Cadastra } from "../../redux/user/slice";
 
 
 function RegisterPage(){
   // const navigate = useNavigate()
   const dispatch = useDispatch()
-  const {user} = useSelector((rootReducer) => rootReducer.user)
+  const navigate = useNavigate()
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
 
-  async function cadastrar(){
-    await createUserWithEmailAndPassword(auth, email, senha)
-    .then((value)=>{
-      dispatch(login({
-        email: email
-      }))
+  function cadastrar(){
+    dispatch(Cadastra({
+      email: email,
+      senha: senha
+    }))
       setEmail('')
       setSenha('')
-      console.log(value)
-      console.log(user)
-      // navigate('/Home')
-    })
-    .catch((error)=>{
-      if(error.code === 'auth/email-already-in-use'){
-        alert('email já cadastrado')
-      }else if(error.code === 'auth/weak-password'){
-        alert('senha curta demais')
-      }
-    })
+      navigate('/Home', {replace: true})
   }
 
 
@@ -53,7 +40,7 @@ function RegisterPage(){
           <SpanSenha>senha deve ter pelo menos 6 dígitos</SpanSenha>
 
           <button onClick={cadastrar}>Cadastrar</button>
-          <Link to='/'>Já possui conta? faça seu login</Link>
+          <Link to='/Login'>Já possui conta? faça seu login</Link>
         </Container>
       </RegisterStyle>
   )

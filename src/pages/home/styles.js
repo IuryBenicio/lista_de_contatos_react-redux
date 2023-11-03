@@ -1,5 +1,20 @@
 import styled from "styled-components";
 
+export const Sair = styled.a`
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  text-decoration: none;
+  border: 1px solid black;
+  padding: 10px;
+  background-color: #5353f3;
+  color: white;
+  cursor: pointer;
+  &:hover{
+    background-color: #2222c2
+  }
+`
+
 export const ContainerContatos=styled.div`
   margin-top: 16px;
 ul{
