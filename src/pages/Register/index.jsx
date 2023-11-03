@@ -40,7 +40,7 @@ function RegisterPage(){
           <SpanSenha>senha deve ter pelo menos 6 dígitos</SpanSenha>
 
           <button onClick={cadastrar}>Cadastrar</button>
-          <Link to='/'>Já possui conta? faça seu login</Link>
+          <Link to='/Login'>Já possui conta? faça seu login</Link>
         </Container>
       </RegisterStyle>
   )

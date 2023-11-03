@@ -15,13 +15,19 @@ const initialState = {
 
 const cttRef = collection(db, 'Lista-de-contatos')
 
-async function addCtt(nome, ddd, numero, email){
+async function addCtt(nome, ddd, numero, email, userUid){
   await addDoc(cttRef,{
     Created: new Date(),
+    userUid: userUid,
     Nome: nome,
     DDD: ddd,
     Numero: numero,
     Email: email
+  })
+  .then(()=>{
+  })
+  .catch((error)=>{
+    alert(error + 'erro ao salvar contato')
   })
 }
 
@@ -31,7 +37,7 @@ export const cttSlice = createSlice({
   initialState,
   reducers:{
       addContato:(state, action)=>{
-        addCtt(action.payload.Nome, action.payload.DDD, action.payload.Numero, action.payload.Email);
+        addCtt(action.payload.Nome, action.payload.DDD, action.payload.Numero, action.payload.Email, action.payload.userUid);
         return{ ...state,
           newCtt:{
             Nome: action.payload.Nome,

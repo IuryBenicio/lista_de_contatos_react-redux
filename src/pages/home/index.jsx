@@ -1,16 +1,18 @@
-import { collection, doc, updateDoc, onSnapshot, deleteDoc } from "firebase/firestore"
+import { collection, doc, updateDoc, onSnapshot, deleteDoc, query, orderBy, where } from "firebase/firestore"
 import { addContato } from "../../redux/Contact/slice";
 import { db } from "../../firebaseconnection"
 import { useDispatch } from "react-redux"
 import { useEffect, useState } from "react"
-import { ContainerPage, ContainerAddCtt, InputsAddCtt, ButtonContainer } from "./styles"
+import { ContainerPage, ContainerAddCtt, InputsAddCtt, ButtonContainer, Sair } from "./styles"
 import CttContainer from "../../components/CttContainer"
+import { LogOut } from "../../redux/user/slice";
 
 
 function Home(){
 
   const dispatch = useDispatch();
 
+  const [user, setUser] = useState([]);
   const [editando, setEditando] = useState(false)
   const [contatos, setContatos] = useState([])
   const [idCtt, setId] = useState('')
@@ -26,6 +28,7 @@ function Home(){
       return
     }else{
       dispatch(addContato({
+        userUid: user?.uid,
         Nome: nome,
         DDD: DDD,
         Numero: numero,
@@ -73,19 +76,33 @@ function Home(){
     ///////////ATUALIZA CONTATOS///////////////
   async function AtualizaAgenda(){
     // eslint-disable-next-line no-unused-vars
-    const unsub = onSnapshot(collection(db, 'Lista-de-contatos'), (e)=>{
-      let listaContatos = []
-      e.forEach((doc)=>{
-        listaContatos.push({
-          id: doc.id,
-          Nome: doc.data().Nome,
-          DDD: doc.data().DDD,
-          Numero: doc.data().Numero,
-          Email: doc.data().Email
+    const userDetail = localStorage.getItem('@detailUser')
+    setUser (JSON.parse(userDetail))
+
+    if(userDetail){
+      const data = JSON.parse(userDetail);
+
+      const cttRef = collection(db, 'Lista-de-contatos')
+      const q = query(cttRef, orderBy('Created', 'desc'), where('userUid', '==', data?.uid))
+
+      // eslint-disable-next-line no-unused-vars
+      const semuso = onSnapshot(q, (e)=>{
+        let lista = []
+
+        e.forEach((doc)=>{
+          lista.push({
+            id: doc.id,
+            Nome: doc.data().Nome,
+            DDD: doc.data().DDD,
+            Numero: doc.data().Numero,
+            Email: doc.data().Email,
+            userUid: doc.data().userUid
+          })
         })
+        console.log(lista)
+        setContatos(lista)
       })
-      setContatos(listaContatos)
-    })
+    }
   }
 
   ///////////EXCLUI CONTATO///////////////
@@ -99,6 +116,10 @@ function Home(){
       alert(`erro ao apagar contato ${e.Nome}. código do erro ${erro} `)
     })
   }
+///////////////// SAIR //////////////////////
+function Logout(){
+  dispatch(LogOut())
+}
 
     ///////////PROCESSOS AO INICIAR///////////////
   useEffect(()=>{
@@ -124,6 +145,7 @@ function Home(){
               </ButtonContainer>
             </ContainerAddCtt>
             <CttContainer func={setInputEdit} funcExc={excluirContato} list={contatos}/>
+            <Sair onClick={Logout}> SAIR </Sair>
           </ContainerPage>
       </>
   )

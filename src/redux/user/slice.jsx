@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth } from "../../firebaseconnection";
 
 const initialState = {
@@ -7,6 +7,10 @@ const initialState = {
     email: '',
     logado: false
   }
+}
+
+async function LogOutUser(){
+  await signOut(auth)
 }
 
 async function LogaUser(email, senha){
@@ -56,10 +60,14 @@ export const userSlice = createSlice({
     Loga: (state, action)=>{
       LogaUser(action.payload.email, action.payload.senha)
       return{...state}
+    },
+    LogOut: (state)=>{
+      LogOutUser();
+      return{...state}
     }
   }
 })
 
 export default userSlice.reducer
 
-export const{login, Cadastra, Loga} = userSlice.actions
+export const{login, Cadastra, Loga, LogOut} = userSlice.actions
