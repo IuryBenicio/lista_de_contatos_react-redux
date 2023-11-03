@@ -20,6 +20,7 @@ function Home(){
   const [DDD, setDDD] = useState('')
   const [numero, setNumero] = useState('')
   const [email,setEmail] = useState('')
+  const [carregando, setCarregando] = useState(false)
 
   ///////////ADICIONA CONTATO///////////////
   function handleAddCtt(){
@@ -123,7 +124,9 @@ function Logout(){
 
     ///////////PROCESSOS AO INICIAR///////////////
   useEffect(()=>{
+    setCarregando(true)
     AtualizaAgenda()
+    setCarregando(false)
   },[])
 
   return(
@@ -144,7 +147,7 @@ function Logout(){
 
               </ButtonContainer>
             </ContainerAddCtt>
-            <CttContainer func={setInputEdit} funcExc={excluirContato} list={contatos}/>
+            <CttContainer carregando={carregando} func={setInputEdit} funcExc={excluirContato} list={contatos}/>
             <Sair onClick={Logout}> SAIR </Sair>
           </ContainerPage>
       </>

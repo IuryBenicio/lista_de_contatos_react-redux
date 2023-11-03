@@ -5,7 +5,7 @@ function CttContainer(props){
   return(
     <>
       <ContainerContatos>
-        {props.list.length >= 1 ? (
+        {props.carregando === false ? (
             <ul>
               {props.list.map((e)=>(
                 <ItemCtt key={e.id}>
