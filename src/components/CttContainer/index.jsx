@@ -11,7 +11,7 @@ function CttContainer(props){
                 <ItemCtt key={e.id}>
                   <NomeCtt>{e.Nome}</NomeCtt>
                   <p>{e.Email}</p>
-                  <p><span>({e.DDD})</span> {e.Numero}</p>
+                  <p><span>{e.DDD}</span> {e.Numero}</p>
                   <button onClick={()=>props.func(e)} >edit</button><button onClick={()=>props.funcExc(e)}>remove</button>
                 </ItemCtt>
               ))}

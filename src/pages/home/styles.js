@@ -82,6 +82,7 @@ export const InputsAddCtt = styled.div`
     gap: 5px;
     input{
       border-radius: 4px;
+      text-align: center;
       border: 1px solid black;
     }
 `
