@@ -130,7 +130,6 @@ function Home(){
 ///////////////// SAIR //////////////////////
 function Logout(){
   dispatch(LogOut())
-  navigate('/')
 }
 
     ///////////PROCESSOS AO INICIAR///////////////
