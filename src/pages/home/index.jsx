@@ -1,6 +1,7 @@
 import { collection, doc, updateDoc, onSnapshot, deleteDoc, query, orderBy, where } from "firebase/firestore"
 import { addContato } from "../../redux/Contact/slice";
 import { db } from "../../firebaseconnection"
+import InputMask from 'react-input-mask';
 import { useDispatch } from "react-redux"
 import { useEffect, useState } from "react"
 import { ContainerPage, ContainerAddCtt, InputsAddCtt, ButtonContainer, Sair } from "./styles"
@@ -20,11 +21,17 @@ function Home(){
   const [DDD, setDDD] = useState('')
   const [numero, setNumero] = useState('')
   const [email,setEmail] = useState('')
+  const [carregando, setCarregando] = useState(false)
 
   ///////////ADICIONA CONTATO///////////////
+
   function handleAddCtt(){
-    if(nome === ''){
-      alert('PRECISA DIGITAR UM NOME AO CONTATO')
+    const result = contatos.filter((ctt)=> ctt.Email == email || ctt.Nome == nome )
+    if(nome === '' || numero === '' || email === '' || DDD === ''){
+      alert('Espaços não preenchidos')
+      return
+    }else if(result.length>0){
+      alert('nome ou email já existente')
       return
     }else{
       dispatch(addContato({
@@ -34,6 +41,7 @@ function Home(){
         Numero: numero,
         Email: email
       }))
+      console.log(contatos)
       setDDD('')
       setEmail('')
       setNome('')
@@ -99,7 +107,6 @@ function Home(){
             userUid: doc.data().userUid
           })
         })
-        console.log(lista)
         setContatos(lista)
       })
     }
@@ -123,18 +130,21 @@ function Logout(){
 
     ///////////PROCESSOS AO INICIAR///////////////
   useEffect(()=>{
+    setCarregando(true)
     AtualizaAgenda()
+    setCarregando(false)
   },[])
 
   return(
       <>
           <ContainerPage>
             <ContainerAddCtt>
-              <h2>Adicione um novo contato</h2>
+              {editando ? (<h2>Edite o contato</h2>) : (<h2>Adicione um novo contato</h2>)}
+
               <InputsAddCtt>
                   <input onChange={e=>setNome(e.target.value)} value={nome} type="text" placeholder="digite o nome do contato" />
-                  <input onChange={e=>setDDD(e.target.value)} value={DDD} type="text" placeholder="digite DDD" />
-                  <input onChange={e=>setNumero(e.target.value)} value={numero} type="text" placeholder="digite Numero" />
+                  <InputMask mask='+55 (99)' onChange={e=>setDDD(e.target.value)} value={DDD} type="text" placeholder="digite DDD" />
+                  <InputMask mask='99999-9999' onChange={e=>setNumero(e.target.value)} value={numero} type="text" placeholder="digite Numero" />
                   <input onChange={e=>setEmail(e.target.value)} value={email} type="text" placeholder="digite o email do contato" />
               </InputsAddCtt>
               <ButtonContainer>
@@ -144,7 +154,7 @@ function Logout(){
 
               </ButtonContainer>
             </ContainerAddCtt>
-            <CttContainer func={setInputEdit} funcExc={excluirContato} list={contatos}/>
+            <CttContainer carregando={carregando} func={setInputEdit} funcExc={excluirContato} list={contatos}/>
             <Sair onClick={Logout}> SAIR </Sair>
           </ContainerPage>
       </>

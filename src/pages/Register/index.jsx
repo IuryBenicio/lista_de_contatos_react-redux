@@ -20,7 +20,7 @@ function RegisterPage(){
     }))
       setEmail('')
       setSenha('')
-      navigate('/Home', {replace: true})
+      navigate('/Login')
   }
 
 

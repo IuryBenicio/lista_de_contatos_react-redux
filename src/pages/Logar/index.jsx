@@ -15,7 +15,7 @@ function LoginPage(){
       email: email,
       senha: senha
     }))
-    navigate('/Home', {replace: true})
+    navigate('/Home')
   }
 
   return(
@@ -31,7 +31,7 @@ function LoginPage(){
           onChange={evento => setSenha(evento.target.value)}
           type="text" value={senha} />
 
-          <button onClick={logarUsuario} >Logar</button>
+          <button onClick={logarUsuario}>Logar</button>
           <Link to='/'>Não possui conta? faça seu cadastro</Link>
         </Container>
       </RegisterStyle>
