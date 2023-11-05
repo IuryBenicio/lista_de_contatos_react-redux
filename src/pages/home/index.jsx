@@ -35,6 +35,7 @@ function Home(){
       return
     }else if(email.length>5 || email.includes('@') === false){
       alert('Email não válido')
+      return
     }else{
       dispatch(addContato({
         userUid: user?.uid,
