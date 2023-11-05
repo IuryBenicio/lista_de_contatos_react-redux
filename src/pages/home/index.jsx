@@ -3,6 +3,7 @@ import { addContato } from "../../redux/Contact/slice";
 import { db } from "../../firebaseconnection"
 import InputMask from 'react-input-mask';
 import { useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react"
 import { ContainerPage, ContainerAddCtt, InputsAddCtt, ButtonContainer, Sair } from "./styles"
 import CttContainer from "../../components/CttContainer"
@@ -10,7 +11,7 @@ import { LogOut } from "../../redux/user/slice";
 
 
 function Home(){
-
+  const navigate = useNavigate()
   const dispatch = useDispatch();
 
   const [user, setUser] = useState([]);
@@ -129,6 +130,7 @@ function Home(){
 ///////////////// SAIR //////////////////////
 function Logout(){
   dispatch(LogOut())
+  navigate('/')
 }
 
     ///////////PROCESSOS AO INICIAR///////////////
