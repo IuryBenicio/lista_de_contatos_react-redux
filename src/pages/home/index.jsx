@@ -33,6 +33,8 @@ function Home(){
     }else if(result.length>0){
       alert('nome ou email já existente')
       return
+    }else if(email.length>5 || !email.includes('@')){
+      alert('Email não válido')
     }else{
       dispatch(addContato({
         userUid: user?.uid,
