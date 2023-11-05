@@ -33,7 +33,7 @@ function Home(){
     }else if(result.length>0){
       alert('nome ou email já existente')
       return
-    }else if(email.length<5 || email.includes('@') === false){
+    }else if(email.length<5 ){
       alert('Email não válido')
       return
     }else{
