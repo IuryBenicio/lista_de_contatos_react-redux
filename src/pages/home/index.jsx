@@ -129,6 +129,7 @@ function Home(){
   }
 ///////////////// SAIR //////////////////////
 function Logout(){
+  navigate('/')
   dispatch(LogOut())
 }
 
