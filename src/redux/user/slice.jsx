@@ -15,8 +15,7 @@ async function LogOutUser(){
 
 async function LogaUser(email, senha){
   await signInWithEmailAndPassword(auth, email, senha)
-  .then((user)=>{
-      console.log(email, senha, user)
+  .then(()=>{
     })
     .catch((error)=>{
       if(error.code === 'auth/user-not-found'){

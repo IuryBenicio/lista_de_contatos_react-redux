@@ -25,7 +25,6 @@ function Home(){
   const [carregando, setCarregando] = useState(false)
 
   ///////////ADICIONA CONTATO///////////////
-
   function handleAddCtt(){
     const result = contatos.filter((ctt)=> ctt.Email == email || ctt.Nome == nome )
     if(nome === '' || numero === '' || email === '' || DDD === ''){
@@ -45,7 +44,7 @@ function Home(){
         Numero: numero,
         Email: email
       }))
-      console.log(contatos)
+      setContatos(contatos)
       setDDD('')
       setEmail('')
       setNome('')
