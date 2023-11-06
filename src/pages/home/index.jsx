@@ -26,7 +26,7 @@ function Home(){
 
   ///////////ADICIONA CONTATO///////////////
   function handleAddCtt(){
-    const result = contatos.filter((ctt)=> ctt.Email == email || ctt.Nome == nome )
+    const result = contatos.filter((ctt)=> ctt.Email == email || ctt.Nome == nome || ctt.Numero == numero )
     if(nome === '' || numero === '' || email === '' || DDD === ''){
       alert('Espaços não preenchidos')
       return
